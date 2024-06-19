@@ -21,7 +21,7 @@ model User {
   id         Int @id @default(autoincrement())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  email       String
+  email       String @unique
   mdp         String
   name        String?
   adrPost     String?
