@@ -29,7 +29,7 @@ model User {
   mailCheck   Boolean  @default(false)
   typeUser    TypeUser @default(user)
   hash        String
-  hashedRt    String
+  hashedRt    String?
 
   @@map("users")
 }
