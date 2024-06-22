@@ -22,9 +22,9 @@ export class AuthController {
   }
  @Post('logout')
   @UseGuards(AtGuard)
-  @HttpCode(HttpStatus.OK)
-  logout(@GetCurrentUserId() userId: number): Promise<boolean> {
-    return this.authService.logout(userId);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  logout(@GetCurrentUserId() userId: number) {
+    this.authService.logout(userId);
   }
   @Public()
   @UseGuards(RtGuard)

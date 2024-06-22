@@ -25,7 +25,6 @@ export class AuthService {
         hashedRt: '',
       },
     });
-    return true;
   }
   async login(dto: AuthDto): Promise<Tokens> {
     const user = await this.prisma.user.findFirst({
