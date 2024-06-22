@@ -3,9 +3,9 @@ import { AuthService } from '@app/auth/auth.service';
 import { AuthDto } from '@app/auth/dto';
 import { Tokens } from '@app/auth/types';
 import { AuthGuard } from '@nestjs/passport';
-import { AtGuard } from '@app/common/guards';
+import { AtGuard, RtGuard } from '@app/common/guards';
 import { Request } from 'express';
-import { GetCurrentUserId } from '@app/common/decorators';
+import { Public, GetCurrentUser, GetCurrentUserId } from '@app/common/decorators';
 
 @Controller('auth')
 export class AuthController {
@@ -26,10 +26,14 @@ export class AuthController {
   logout(@GetCurrentUserId() userId: number): Promise<boolean> {
     return this.authService.logout(userId);
   }
-  @UseGuards(AuthGuard('jwt-refresh'))
+  @Public()
+  @UseGuards(RtGuard)
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  refreshTokens() {
-    // return this.authService.refreshTokens();
+  refreshTokens(
+    @GetCurrentUserId() userId: number,
+    @GetCurrentUser('refreshToken') refreshToken: string,
+  ): Promise<Tokens> {
+    return this.authService.refreshTokens(userId, refreshToken);
   }
 }
