@@ -9,12 +9,12 @@ import {
 import { AuthService } from '@app/auth/auth.service';
 import { AuthDto } from '@app/auth/dto';
 import { Tokens } from '@app/auth/types';
-import { AtGuard, RtGuard } from '@app/common/guards';
+import { AtGuard, RtGuard } from '@app/shared/guards';
 import {
   Public,
   GetCurrentUser,
   GetCurrentUserId,
-} from '@app/common/decorators';
+} from '@app/shared/decorators';
 
 @Controller('auth')
 export class AuthController {
