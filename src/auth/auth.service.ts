@@ -1,5 +1,5 @@
 import { PrismaService } from '@app/prisma/prisma.service';
-import { Injectable, ForbiddenException } from '@nestjs/common';
+import { Injectable, ForbiddenException, Logger, UnauthorizedException, ConflictException } from '@nestjs/common';
 import { AuthDto } from '@app/auth/dto';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
@@ -8,16 +8,24 @@ import { JwtPayload, Tokens } from '@app/auth/types';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name)
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
     private config: ConfigService,
   ) {}
   async createAccount(dto: AuthDto): Promise<Tokens> {
+    const userExists = await this.prisma.user.findUnique({
+      where: {
+        email: dto.email,
+      },
+    });
+    if (userExists) {
+      throw new ConflictException('Un utilisateur avec cette adresse mail existe déjà !');
+    }
     const hash = await argon2.hash(dto.mdp);
-
     const newUser = await this.prisma.user.create({
-      data: { email: dto.email, mdp: hash, hash: hash, hashedRt: hash },
+      data: { email: dto.email, mdp: hash, name: dto.name, adrPost: dto.adrPost, comment: dto.comment, hash: hash, hashedRt: hash },
     });
     const tokens = await this.getTokens(newUser.id, newUser.email, newUser.typeUser);
     await this.updateRtHash(newUser.id, tokens.refresh_token);
