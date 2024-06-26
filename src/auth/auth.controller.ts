@@ -15,12 +15,17 @@ import {
   GetCurrentUser,
   GetCurrentUserId,
 } from '@app/shared/decorators';
+import { Role } from '@app/auth/enums/role.enum';
+import {Roles} from '@app/shared/decorators/roles.decorator';
+import { AuthGuard } from '@app/shared/guards/auth.guard';
+import { RoleGuard } from '@app/shared/guards/role.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
-  @Public()
   @Post('register')
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard, RoleGuard)
   @HttpCode(HttpStatus.CREATED)
   register(@Body() dto: AuthDto): Promise<Tokens> {
     return this.authService.createAccount(dto);

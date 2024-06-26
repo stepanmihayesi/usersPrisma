@@ -8,5 +8,5 @@ export class AuthDto {
   @IsString()
   @MinLength(10, {message: 'Le mot de passe doit contenir au moins dix caractères.'})
   mdp: string;
-  password: string;
+  typeUser: string;
 }

@@ -15,10 +15,11 @@ export class AuthService {
   ) {}
   async createAccount(dto: AuthDto): Promise<Tokens> {
     const hash = await argon2.hash(dto.mdp);
+
     const newUser = await this.prisma.user.create({
       data: { email: dto.email, mdp: hash, hash: hash, hashedRt: hash },
     });
-    const tokens = await this.getTokens(newUser.id, newUser.email);
+    const tokens = await this.getTokens(newUser.id, newUser.email, newUser.typeUser);
     await this.updateRtHash(newUser.id, tokens.refresh_token);
     return tokens;
   }
@@ -31,7 +32,7 @@ export class AuthService {
     if (!user) throw new ForbiddenException('Accès refusé !');
     const passMatch = await argon2.verify(user.hash, dto.mdp);
     if (!passMatch) throw new ForbiddenException('Accès refusé !');
-    const tokens = await this.getTokens(user.id, user.email);
+    const tokens = await this.getTokens(user.id, user.email, user.typeUser);
     await this.updateRtHash(user.id, tokens.refresh_token);
     return tokens;
   }
@@ -57,14 +58,15 @@ export class AuthService {
     if (!user || !user.hashedRt) throw new ForbiddenException('Accès refusé !');
     const rtMatches = await argon2.verify(user.hashedRt, rt);
     if (!rtMatches) throw new ForbiddenException('Accès refusé !');
-    const tokens = await this.getTokens(user.id, user.email);
+    const tokens = await this.getTokens(user.id, user.email, user.typeUser);
     await this.updateRtHash(user.id, tokens.refresh_token);
     return tokens;
   }
-  async getTokens(userId: number, email: string): Promise<Tokens> {
+  async getTokens(userId: number, email: string, typeUser: string): Promise<Tokens> {
     const jwtPayload: JwtPayload = {
       sub: userId,
       email: email,
+      typeUser: typeUser
     };
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
