@@ -86,6 +86,27 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 Nest is [MIT licensed](LICENSE).
 
 <br/>
+Pour démarrer la Base de Données, les commandes :
+<br/>
+`docker-compose up`
+<br/>
+`npx prisma migrate dev --create-only`
+<br/>
+(Dans l'option qui va s'ouvrir, nommer la migration, par exemple "init")
+<br/>
+Pour ouvrir l'outil de gestion de Base de Données "Prisma Studio" dans le navigateur, la commande :
+<br/>
+`npx prisma studio`
+<br/>
+Pour enlever la Base de Données depuis Docker, mais aussi pour le cas de re-démarrage de Docker, la commande :
+<br/>
+`docker-compose down --volumes`
+<br/>
+<br/>
+Pour demarrer le projet Nest.js, la commande :
+<br/>
+`npm start`
+<br/>
 Fonctionnalité :
 <br/>
 - L'utilisateur peut se connecter avec succès
@@ -170,5 +191,12 @@ Functionality :
 ```````````````````````````````````````````````````````````````````````````````````````````<br/>
 ```````````````````````````````````````````````````````````````````````````````````````````<br/>
 ```````````````````````````````````````````````````````````````````````````````````````````<br/>
+<br/><br/><br/>
+SOURCES :
+<br/><br/>
+JWT access and refresh tokens - https://github.com/vladwulf/nestjs-jwts/tree/main
+<br/><br/>
+RBAC (Role-based access control) - https://medium.com/@dev.muhammet.ozen/role-based-access-control-in-nestjs-15c15090e47d
+<br/><br/>
 </body>
 <html>
