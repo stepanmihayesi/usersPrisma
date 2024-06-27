@@ -7,7 +7,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from '@app/auth/auth.service';
-import { AuthDto } from '@app/auth/dto';
+import { CreateAndAuthUserDto } from '@app/shared/dto/createAndAuthUser.dto';
 import { Tokens } from '@app/auth/types';
 import { AtGuard, RtGuard } from '@app/shared/guards';
 import {
@@ -27,13 +27,13 @@ export class AuthController {
   @Roles(Role.ADMIN)
   @UseGuards(AuthGuard, RoleGuard)
   @HttpCode(HttpStatus.CREATED)
-  register(@Body() dto: AuthDto): Promise<Tokens> {
+  register(@Body() dto: CreateAndAuthUserDto): Promise<Tokens> {
     return this.authService.createAccount(dto);
   }
   @Public()
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  login(@Body() dto: AuthDto): Promise<Tokens> {
+  login(@Body() dto: CreateAndAuthUserDto): Promise<Tokens> {
     return this.authService.login(dto);
   }
   @Post('logout')
