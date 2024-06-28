@@ -22,7 +22,7 @@ export class AuthService {
     }
     const hash = await argon2.hash(dto.mdp);
     const newUser = await this.prisma.user.create({
-      data: { email: dto.email, mdp: hash, name: dto.name, adrPost: dto.adrPost, comment: dto.comment, hash: hash, hashedRt: hash },
+      data: { email: dto.email, mdp: hash, name: dto.name, adrPost: dto.adrPost, comment: dto.comment, hashedRt: hash },
     });
     const tokens = await this.accessControlService.getTokens(newUser.id, newUser.email, newUser.name, newUser.adrPost, newUser.comment, newUser.typeUser);
     await this.accessControlService.updateRtHash(newUser.id, tokens.refresh_token);
@@ -35,7 +35,7 @@ export class AuthService {
       },
     });
     if (!user) throw new ForbiddenException('Accès refusé !');
-    const passMatch = await argon2.verify(user.hash, dto.mdp);
+    const passMatch = await argon2.verify(user.mdp, dto.mdp);
     if (!passMatch) throw new ForbiddenException('Accès refusé !');
     const tokens = await this.accessControlService.getTokens(user.id, user.email, user.name, user.adrPost, user.comment, user.typeUser);
     await this.accessControlService.updateRtHash(user.id, tokens.refresh_token);

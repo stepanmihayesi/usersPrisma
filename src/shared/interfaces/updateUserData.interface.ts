@@ -4,5 +4,4 @@ export interface UpdateUserData {
     adrPost?: string;
     comment?: string;
     mdp?: string;
-    hash?: string;
   }

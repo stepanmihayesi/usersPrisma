@@ -42,7 +42,6 @@ export class UsersService {
         name: dto.name,
         adrPost: dto.adrPost,
         comment: dto.comment,
-        hash: hash,
         hashedRt: hash,
       },
     });
@@ -104,7 +103,6 @@ export class UsersService {
     if (dto.mdp !== undefined) {
       const hash = await argon2.hash(dto.mdp);
       updateData.mdp = hash;
-      updateData.hash = hash;
     }
     return this.prisma.user.update({
       where: { id },

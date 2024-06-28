@@ -2,7 +2,7 @@
 CREATE TYPE "TypeUser" AS ENUM ('admin', 'user');
 
 -- CreateTable
-CREATE TABLE "User" (
+CREATE TABLE "users" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -13,8 +13,7 @@ CREATE TABLE "User" (
     "comment" TEXT,
     "mailCheck" BOOLEAN NOT NULL DEFAULT false,
     "typeUser" "TypeUser" NOT NULL DEFAULT 'user',
-    "hash" TEXT NOT NULL,
-    "hashedRt" TEXT NOT NULL,
+    "hashedRt" TEXT,
 
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Users_pkey" PRIMARY KEY ("id")
 );
