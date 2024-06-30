@@ -12,6 +12,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { AccessContorlService } from '@app/shared/access-control.service';
 import { UpdateUserData } from '@app/shared/interfaces/updateUserData.interface';
+import { FilterUserDto } from '@app/shared/dto/filterUser.dto'
 
 @Injectable()
 export class UsersService {
@@ -60,21 +61,58 @@ export class UsersService {
     return tokens;
   }
 
-  findAll() {
+  async findAll(filterDto: FilterUserDto) {
+    const { id, email, name, adrPost, comment, createdAt, updatedAt, sortBy, sortOrder, typeUser } = filterDto;
+    const where: any = {};
+    if (id) {
+      where.id = id;
+    }
+    if (createdAt) {
+      where.createdAt = {
+        contains: createdAt,
+        mode: 'insensitive',
+      };
+    }
+    if (updatedAt) {
+      where.updatedAt = {
+        contains: updatedAt,
+        mode: 'insensitive',
+      };
+    }
+    if (email) {
+      where.email = {
+        contains: email,
+        mode: 'insensitive',
+      };
+    }
+    if (name) {
+      where.name = {
+        contains: name,
+        mode: 'insensitive',
+      };
+    }
+    if (adrPost) {
+      where.adrPost = {
+        contains: adrPost,
+        mode: 'insensitive',
+      };
+    }
+    if (comment) {
+      where.comment = {
+        contains: comment,
+        mode: 'insensitive',
+      };
+    }
+    if (typeUser) {
+      where.typeUser = typeUser
+    }
+    const orderBy = {};
+    if (sortBy) {
+      orderBy[sortBy] = sortOrder || 'asc';
+    }
     return this.prisma.user.findMany({
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        adrPost: true,
-        comment: true,
-        mailCheck: true,
-        typeUser: true,
-        createdAt: true,
-        updatedAt: true,
-        // Exclude password
-        mdp: false,
-      },
+      where,
+      orderBy,
     });
   }
 

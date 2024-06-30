@@ -12,6 +12,7 @@ import {
   NotFoundException,
   HttpCode,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateAndAuthUserDto } from '@app/shared/dto/createAndAuthUser.dto';
@@ -21,6 +22,7 @@ import { Roles } from '@app/shared/decorators/roles.decorator';
 import { AuthGuard } from '@app/shared/guards/auth.guard';
 import { RoleGuard } from '@app/shared/guards/role.guard';
 import { Role } from '@app/auth/enums/role.enum';
+import { FilterUserDto } from '@app/shared/dto/filterUser.dto';
 
 @Controller('users')
 export class UsersController {
@@ -35,8 +37,8 @@ export class UsersController {
   @Get()
   @Roles(Role.ADMIN)
   @UseGuards(AuthGuard, RoleGuard)
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@Query() filterDto: FilterUserDto) {
+    return this.usersService.findAll(filterDto);
   }
 
   @Get(':id')
