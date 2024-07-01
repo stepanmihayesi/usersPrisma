@@ -1,14 +1,5 @@
 <html>
 <head>
-<title>ASCI</title>
-<style>
-  body {
-    font-family: 'Fira Code', Consolas, 'Courier New', monospace;
-}
-pre, code {
-    font-family: inherit;
-}
-</style>
 </head>
 <body>
 <p align="center">
@@ -36,8 +27,23 @@ pre, code {
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Description
-
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+
+## Rester en contact
+
+- L'auteur de Nest.js - [Kamil Myśliwiec](https://kamilmysliwiec.com)
+- Site Web - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework)
+
+## License
+
+Nest est [MIT license](LICENSE).
+
+## Support
+
+Nest est un projet open source sous licence MIT. Il peut se développer grâce aux sponsors et au soutien des incroyables bailleurs de fonds. Si vous souhaitez les rejoindre, n'hésitez pas [en savoir plus ici](https://docs.nestjs.com/support).
+
+## Priére de lire ce document jusqu'à la fin
 
 ## Installation
 
@@ -45,67 +51,110 @@ pre, code {
 $ npm install
 ```
 
-## Running the app
-
+## Ajouter le ficher ".env" à la racine du projet avec le contenu suivant. Important ! Pensez à mettre un mot de passe plus sécurisé et des SECRETs complexes et plus longs, surtout pour la Prod.
 ```bash
-# development
-$ npm run start
+DATABASE_URL="postgresql://postgres:password@localhost:5432/nestjs?schema=public"
+AT_SECRET="at-secret"
+RT_SECRET="rt-secret"
+```
 
-# watch mode
-$ npm run start:dev
+## Installer Docker, si vous ne l'avez pas
+```bash
+https://docs.docker.com/engine/install/
+```
 
-# production mode
+## Démarrer la Base de Données (voir le ficher docker-compose.yml à la racine du projet) :
+```bash
+$ docker-compose up
+```
+
+## Générer les tables de la Base de Données à l'aide de Prisma, "migration". Dans l'option qui va être demandée, nommer la migration, e.g. "init" :
+```bash
+$ npx prisma migrate dev --create-only
+```
+
+## Ouvrir l'outil de gestion de Base de Données "Prisma Studio" dans le navigateur
+```bash
+$ npx prisma studio
+```
+
+## Démarrer l'application
+```bash
+# Mode auto-redemarrage 
+$ npm start
+
+# Mode production
 $ npm run start:prod
 ```
 
 ## Test
 
 ```bash
-# unit tests
+# Tests uniters
 $ npm run test
 
-# e2e tests
+# Tests bout-en-bout
 $ npm run test:e2e
 
-# test coverage
+# Couverture de tests
 $ npm run test:cov
 ```
 
-## Support
+## Désinstaller Nest.js, Prisma et PostgreSQL
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Supprimer le code source du projet sur Windows
 
-## Stay in touch
+<tt>Séléctionner le répertoire qui contient le projet et appuyer sur "Maj + Suppr"</tt>
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Supprimer le code source du projet sur les appareils avec un système Unix, en ligne de commande
+```bash
+$ rm -rf /chemin/vers/votre/projet
+```
 
-## License
+## Supprimer la base de données depuis Docker, mais également en cas de redémarrage de Docker :
+```bash
+$ docker-compose down --volumes
+```
 
-Nest is [MIT licensed](LICENSE).
+## Supprimmer Nest.js :
+```bash
+$ npm uninstall -g @nestjs/cli
+```
 
+## Supprimmer Prisma :
+```bash
+$ npm uninstall -g prisma
+```
+
+## Désinstaller PostgreSQL en ligne de commande
+```bash
+# Sous macOS (utilisant Homebrew) :
+$ brew uninstall postgresql
+$ brew cleanup
+$ rm -rf /usr/local/var/postgres
+$ rm -f /usr/local/bin/psql /usr/local/bin/createdb
+
+# Sous Ubuntu :
+$ sudo apt-get --purge remove postgresql postgresql-client postgresql-client-common postgresql-common
+$ sudo apt-get autoremove
+$ sudo apt-get autoclean
+$ sudo rm -rf /etc/postgresql /var/lib/postgresql /usr/lib/postgresql
+```
+
+# Supprimer Postgres d'une machine Windows :
+<tt>Désinstaller PostgreSQL via le Panneau de configuration :<br/>
 <br/>
-Pour démarrer la Base de Données, les commandes :
+Allez dans "Panneau de configuration" -> "Programmes" -> "Programmes et fonctionnalités".<br/>
+Trouvez PostgreSQL dans la liste, cliquez dessus, puis cliquez sur "Désinstaller".<br/>
+Supprimer les fichiers restants :<br/>
 <br/>
-`docker-compose up`
+Supprimez le répertoire d'installation de PostgreSQL, généralement situé dans C:\Program Files\PostgreSQL.<br/>
+Supprimez les données PostgreSQL, généralement situées dans C:\Program Files\PostgreSQL\<version>\data.<br/>
+Supprimer les variables d'environnement :<br/>
 <br/>
-`npx prisma migrate dev --create-only`
-<br/>
-(Dans l'option qui va s'ouvrir, nommer la migration, par exemple "init")
-<br/>
-Pour ouvrir l'outil de gestion de Base de Données "Prisma Studio" dans le navigateur, la commande :
-<br/>
-`npx prisma studio`
-<br/>
-Pour enlever la Base de Données depuis Docker, mais aussi pour le cas de re-démarrage de Docker, la commande :
-<br/>
-`docker-compose down --volumes`
-<br/>
-<br/>
-Pour demarrer le projet Nest.js, la commande :
-<br/>
-`npm start`
+Ouvrez le menu Démarrer, recherchez "variables d'environnement" et sélectionnez "Modifier les variables d'environnement<br/> système".
+Dans la section "Variables système", trouvez et supprimez les variables liées à PostgreSQL (PGDATA, PGHOME, etc.).</tt>
+
 <br/>
 Fonctionnalité :
 <br/>
@@ -123,80 +172,67 @@ Fonctionnalité :
 <br/>
 - Plusieurs jetons d'actualisation sont valides (l'utilisateur peut se connecter à partir de différents appareils)
 <br/>
-
 <br/>
-Functionality :
-
-<br/>
-- User can successfully login
-
-<br/>
-- User gets 403 on invalid credentials
-
-<br/>
-- User gets 401 on expired token
-
-<br/>
-- User can refresh access token using refresh token
-
-<br/>
-- User can use refresh token only once
-
-<br/>
-- Refresh tokens become invalid on logout
-
-<br/>
-- Multiple refresh tokens are valid (the user cans connect from differet devices)
-```````````````````````````````````````````````````````````````````````````````````````````<br/>
-```````````````````````````````````````````````````````````````````````````````````````````<br/>
-`````+--------+`````auth/login````````+--------+``Save`hash`of`refresh`token```````````````<br/>
-`````|````````|``------------------->`|````````|`\```````______````````````````````````````<br/>
-`````|`Client`|```````````````````````|`Server`|``\`````/``````\```````````````````````````<br/>
-`````|````````|`<-------------------``|````````|```\```|\______/|``````````````````````````<br/>
-`````+--------+`````access_token``````+--------+````\``|````````|``````````````````````````<br/>
-````````````````````refresh_token```````````````````_\||```DB```|``````````````````````````<br/>
-```````````````````````````````````````````````````````|````````|``````````````````````````<br/>
-```````````````````````````````````````````````````````|________|``````````````````````````<br/>
-```````````````````````````````````````````````````````````````````````````````````````````<br/>
-```````````````````````````````````````````````````````````````````````````````````````````<br/>
-`````+--------+`````auth/refresh``````+--------+``Compare`hash`to`refresh`token````````````<br/>
-`````|````````|``------------------->`|````````|`\```````______````````````````````````````<br/>
-`````|`Client`|```````````````````````|`Server`|``\`````/``````\```````````````````````````<br/>
-`````|````````|`<-------------------``|````````|```\```|\______/|``````````````````````````<br/>
-`````+--------+`````access_token``````+--------+````\``|````````|``````````````````````````<br/>
-````````````````````refresh_token```````````````````_\||```DB```|``````````````````````````<br/>
-```````````````````````````````````````````````````````|````````|``````````````````````````<br/>
-```````````````````````````````````````````````````````|________|``````````````````````````<br/>
-```````````````````````````````````````````````````````````````````````````````````````````<br/>
-```````````````````````````````````````````````````````````````````````````````````````````<br/>
-`````+--------+`````auth/logout```````+--------+``Delete`hash`of`refresh`token`from`DB`````<br/>
-`````|````````|``------------------->`|````````|`\```````______````````````````````````````<br/>
-`````|`Client`|```````````````````````|`Server`|``\`````/``````\```````````````````````````<br/>
-`````|````````|`<-------------------``|````````|```\```|\______/|``````````````````````````<br/>
-`````+--------+``````````204``````````+--------+````\``|````````|``````````````````````````<br/>
-````````````````````````````````````````````````````_\||```DB```|``````````````````````````<br/>
-```````````````````````````````````````````````````````|````````|``````````````````````````<br/>
-```````````````````````````````````````````````````````|________|``````````````````````````<br/>
-```````````````````````````````````````````````````````````````````````````````````````````<br/>
-```````````````````````````````````````````````````````````````````````````````````````````<br/>
-`````If`refresh`token`is`stolen````````````````````````````````````````````````````````````<br/>
-`````````````manual`delete`of`RT`hash`from`DB.`````````````````````````````````````````````<br/>
-``````````````______```````````````````````````````````````````````````````````````````````<br/>
-`````````````/``````\``````````````````````````````````````````````````````````````````````<br/>
-````````````|\______/|`````````````````````````````````````````````````````````````````````<br/>
-````````````|````````|`````````````````````````````````````````````````````````````````````<br/>
-````````````|```DB```|`````````````````````````````````````````````````````````````````````<br/>
-````````````|````````|`````````````````````````````````````````````````````````````````````<br/>
-````````````|________|`````````````````````````````````````````````````````````````````````<br/>
-```````````````````````````````````````````````````````````````````````````````````````````<br/>
-```````````````````````````````````````````````````````````````````````````````````````````<br/>
-```````````````````````````````````````````````````````````````````````````````````````````<br/>
+<tt>                                                                            </tt><br/>
+<tt>                                                    Enregistrer le          </tt><br/>
+<tt>                                                    hash du refresh token   </tt><br/>
+<tt>   +--------+     auth/login        +--------+                              </tt><br/>
+<tt>   |        |  -------------------> |        | \       ______               </tt><br/>
+<tt>   | Client |                       | Server |  \     /      \              </tt><br/>
+<tt>   |        | <-------------------  |        |   \   |\______/|             </tt><br/>
+<tt>   +--------+     access_token      +--------+    \  |        |             </tt><br/>
+<tt>                  refresh_token                   _\||   DB   |             </tt><br/>
+<tt>                                                     |        |             </tt><br/>
+<tt>                                                     |________|             </tt><br/>
+<tt>                                                                            </tt><br/>
+<tt>                                                    Comparer le hash avec   </tt><br/>
+<tt>                                                    le refresh token        </tt><br/>
+<tt>   +--------+     auth/refresh      +--------+                              </tt><br/>
+<tt>   |        |  -------------------> |        | \       ______               </tt><br/>
+<tt>   | Client |                       | Server |  \     /      \              </tt><br/>
+<tt>   |        | <-------------------  |        |   \   |\______/|             </tt><br/>
+<tt>   +--------+     access_token      +--------+    \  |        |             </tt><br/>
+<tt>                  refresh_token                   _\||   DB   |             </tt><br/>
+<tt>                                                     |        |             </tt><br/>
+<tt>                                                     |________|             </tt><br/>
+<tt>                                                                            </tt><br/>
+<tt>                                                    Supprimer le hash du    </tt><br/>
+<tt>                                                    refresh token de la BD  </tt><br/>
+<tt>   +--------+     auth/logout       +--------+                              </tt><br/>
+<tt>   |        |  -------------------> |        | \       ______               </tt><br/>
+<tt>   | Client |                       | Server |  \     /      \              </tt><br/>
+<tt>   |        | <-------------------  |        |   \   |\______/|             </tt><br/>
+<tt>   +--------+          204          +--------+    \  |        |             </tt><br/>
+<tt>                                                  _\||   DB   |             </tt><br/>
+<tt>                                                     |        |             </tt><br/>
+<tt>                                                     |________|             </tt><br/>
+<tt>                                                                            </tt><br/>
+<tt>                                                                            </tt><br/>
+<tt>   Si le refresh token a été corrompu/vlolé                                 </tt><br/>
+<tt>   on le supprime manuellement depuis la BD.                                </tt><br/>
+<tt>            ______                                                          </tt><br/>
+<tt>           /      \                                                         </tt><br/>
+<tt>          |\______/|                                                        </tt><br/>
+<tt>          |        |                                                        </tt><br/>
+<tt>          |   DB   |                                                        </tt><br/>
+<tt>          |        |                                                        </tt><br/>
+<tt>          |________|                                                        </tt><br/>
+<tt>                                                                            </tt><br/>
+<tt>                                                                            </tt><br/>
 <br/><br/><br/>
 SOURCES :
 <br/><br/>
-JWT access and refresh tokens - https://github.com/vladwulf/nestjs-jwts/tree/main
+JWT access and refresh tokens :
+<br/>
+https://github.com/vladwulf/nestjs-jwts/tree/main
+<br/>
+https://www.youtube.com/watch?v=uAKzFhE3rxU
 <br/><br/>
-RBAC (Role-based access control) - https://medium.com/@dev.muhammet.ozen/role-based-access-control-in-nestjs-15c15090e47d
+RBAC (Role-based access control) :
+<br/>
+https://www.youtube.com/watch?v=Um9wyVaB5Iw
+<br/>
+https://medium.com/@dev.muhammet.ozen/role-based-access-control-in-nestjs-15c15090e47d
 <br/><br/>
 </body>
 <html>
