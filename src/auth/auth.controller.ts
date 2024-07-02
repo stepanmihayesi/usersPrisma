@@ -16,7 +16,7 @@ import {
   GetCurrentUserId,
 } from '@app/shared/decorators';
 import { Role } from '@app/auth/enums/role.enum';
-import {Roles} from '@app/shared/decorators/roles.decorator';
+import { Roles } from '@app/shared/decorators/roles.decorator';
 import { AuthGuard } from '@app/shared/guards/auth.guard';
 import { RoleGuard } from '@app/shared/guards/role.guard';
 

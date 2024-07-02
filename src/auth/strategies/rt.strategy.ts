@@ -20,7 +20,8 @@ export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
       ?.get('authorization')
       ?.replace('Bearer', '')
       .trim();
-    if (!refreshToken) throw new ForbiddenException('Refresh token mal formaté !');
+    if (!refreshToken)
+      throw new ForbiddenException('Refresh token mal formaté !');
     return {
       ...payload,
       refreshToken,

@@ -16,5 +16,5 @@
 - Les filtres, surtout sur les dates "createdAt" et "updatedAt" peuvent et doivent être améliorés.
 - Une librairie pour une gestion de Rôles plus avancée peut être utilisée comme, par exemple https://github.com/nestjsx/nest-access-control.
 - Les DTOs du répertoire ./shared/dto n'ont pas vraiment tous besoin d'etre partagés entre les modules et peuvent être séparés et déplacés dans vers les modules correspondants.
-- Appliquer Prettier à tous les fichiers pour corriger l'indentation du code.
+- Configurer Prettier pour qu'il rentre en action à la sauvegarde (Ctrl+s).
 - Drizzle pourrait être utilisé à la place de Prisma si on estimait d'avoir besoin d'un "query builder" traditionnel. Par contre, dans ce cas, il faut accepter le fait que Drizzle n'est pas "fully type safe".

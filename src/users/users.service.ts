@@ -12,7 +12,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { AccessContorlService } from '@app/shared/access-control.service';
 import { UpdateUserData } from '@app/shared/interfaces/updateUserData.interface';
-import { FilterUserDto } from '@app/shared/dto/filterUser.dto'
+import { FilterUserDto } from '@app/shared/dto/filterUser.dto';
 
 @Injectable()
 export class UsersService {
@@ -62,7 +62,18 @@ export class UsersService {
   }
 
   async findAll(filterDto: FilterUserDto) {
-    const { id, email, name, adrPost, comment, createdAt, updatedAt, sortBy, sortOrder, typeUser } = filterDto;
+    const {
+      id,
+      email,
+      name,
+      adrPost,
+      comment,
+      createdAt,
+      updatedAt,
+      sortBy,
+      sortOrder,
+      typeUser,
+    } = filterDto;
     const where: any = {};
     if (id) {
       where.id = id;
@@ -104,7 +115,7 @@ export class UsersService {
       };
     }
     if (typeUser) {
-      where.typeUser = typeUser
+      where.typeUser = typeUser;
     }
     const orderBy = {};
     if (sortBy) {
@@ -154,5 +165,4 @@ export class UsersService {
       where: { id },
     });
   }
-
 }

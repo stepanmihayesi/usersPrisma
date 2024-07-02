@@ -1,5 +1,9 @@
 import { PrismaService } from '@app/prisma/prisma.service';
-import { Injectable, ForbiddenException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  ForbiddenException,
+  ConflictException,
+} from '@nestjs/common';
 import { CreateAndAuthUserDto } from '@app/shared/dto/createAndAuthUser.dto';
 import * as argon2 from 'argon2';
 import { Tokens } from '@app/auth/types';
@@ -18,14 +22,33 @@ export class AuthService {
       },
     });
     if (userExists) {
-      throw new ConflictException('Un utilisateur avec cette adresse mail existe déjà !');
+      throw new ConflictException(
+        'Un utilisateur avec cette adresse mail existe déjà !',
+      );
     }
     const hash = await argon2.hash(dto.mdp);
     const newUser = await this.prisma.user.create({
-      data: { email: dto.email, mdp: hash, name: dto.name, adrPost: dto.adrPost, comment: dto.comment, hashedRt: hash },
+      data: {
+        email: dto.email,
+        mdp: hash,
+        name: dto.name,
+        adrPost: dto.adrPost,
+        comment: dto.comment,
+        hashedRt: hash,
+      },
     });
-    const tokens = await this.accessControlService.getTokens(newUser.id, newUser.email, newUser.name, newUser.adrPost, newUser.comment, newUser.typeUser);
-    await this.accessControlService.updateRtHash(newUser.id, tokens.refresh_token);
+    const tokens = await this.accessControlService.getTokens(
+      newUser.id,
+      newUser.email,
+      newUser.name,
+      newUser.adrPost,
+      newUser.comment,
+      newUser.typeUser,
+    );
+    await this.accessControlService.updateRtHash(
+      newUser.id,
+      tokens.refresh_token,
+    );
     return tokens;
   }
   async login(dto: CreateAndAuthUserDto): Promise<Tokens> {
@@ -37,7 +60,14 @@ export class AuthService {
     if (!user) throw new ForbiddenException('Accès refusé !');
     const passMatch = await argon2.verify(user.mdp, dto.mdp);
     if (!passMatch) throw new ForbiddenException('Accès refusé !');
-    const tokens = await this.accessControlService.getTokens(user.id, user.email, user.name, user.adrPost, user.comment, user.typeUser);
+    const tokens = await this.accessControlService.getTokens(
+      user.id,
+      user.email,
+      user.name,
+      user.adrPost,
+      user.comment,
+      user.typeUser,
+    );
     await this.accessControlService.updateRtHash(user.id, tokens.refresh_token);
     return tokens;
   }
@@ -63,7 +93,14 @@ export class AuthService {
     if (!user || !user.hashedRt) throw new ForbiddenException('Accès refusé !');
     const rtMatches = await argon2.verify(user.hashedRt, rt);
     if (!rtMatches) throw new ForbiddenException('Accès refusé !');
-    const tokens = await this.accessControlService.getTokens(user.id, user.email, user.name, user.adrPost, user.comment, user.typeUser);
+    const tokens = await this.accessControlService.getTokens(
+      user.id,
+      user.email,
+      user.name,
+      user.adrPost,
+      user.comment,
+      user.typeUser,
+    );
     await this.accessControlService.updateRtHash(user.id, tokens.refresh_token);
     return tokens;
   }

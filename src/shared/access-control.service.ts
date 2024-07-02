@@ -47,14 +47,21 @@ export class AccessContorlService {
     }
     return false;
   }
-  async getTokens(userId: number, email: string, name: string | null, adrPost: string | null, comment: string | null, typeUser: string): Promise<Tokens> {
+  async getTokens(
+    userId: number,
+    email: string,
+    name: string | null,
+    adrPost: string | null,
+    comment: string | null,
+    typeUser: string,
+  ): Promise<Tokens> {
     const jwtPayload: JwtPayload = {
       sub: userId,
       email: email,
       name: name,
       adrPost: adrPost,
       comment: comment,
-      typeUser: typeUser
+      typeUser: typeUser,
     };
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
