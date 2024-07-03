@@ -1,5 +1,6 @@
 ## Elements manquants
 
+- Demoniser (préparer pour la production) l'application, permet d'éviter un redemarrage manuel en cas de crash (arret imprevu). Raison : il n'est pas recommandé d'utiliser Nodemon en production, voir le site web de Nodemon. Solutions possibles : 1. Systemd est un bon choix car existe dans Linux et permet d'avoir les commandes "status", "restart", "stop", nécessite une configuration et des connaissances de Linux. 2. Supervisor. Les avantages : a. orchestration et redémarrage automatique, b. gestion des procès pour gerer des instances multiples, c. logging et monitoring pour la gestion de performance. Nécessite Python et une installation via Pip, car il n'existe pas de base dans Linux. (https://medium.com/free-code-camp/you-should-never-ever-run-directly-against-node-js-in-production-maybe-7fdfaed51ec6)
 - Vérification de mail avec un lien à utilisation unique (champ prévu dans la table "users").
 - Utiliser des GUIDs au lieu d'IDs pour la table utilisateurs.
 - Authentification à deux facteurs.
